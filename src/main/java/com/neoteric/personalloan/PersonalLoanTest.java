@@ -9,7 +9,7 @@ public class PersonalLoanTest {
         PersonalLoanService loanService = new PersonalLoanService();
         Address address=new Address("123","Kphb","Kphb","Hyd","500080");
         Customer customer = new Customer("Venkat",address,"9182");
-        PersonalLoan personalLoan = loanService.createLoan(100000, 9, 60, 200000, customer);
+        PersonalLoan personalLoan = loanService.createLoan(1000000, 9, 60, 200000, customer);
         System.out.println(personalLoan);
     }
 }

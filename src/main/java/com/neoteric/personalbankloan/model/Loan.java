@@ -45,7 +45,7 @@ public class Loan {
         this.balance = balance;
     }
 
-    public String getApplicationNumber() {
+    public String  getApplicationNumber() {
         return applicationNumber;
     }
 
