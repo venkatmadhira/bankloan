@@ -1,8 +1,7 @@
-package com.neoteric.ticket;
+package com.neoteric.ticket.service;
 
 import com.neoteric.ticket.model.Bus;
 import com.neoteric.ticket.model.Route;
-import com.neoteric.ticket.service.BusReservationService;
 
 import java.util.List;
 

@@ -1,9 +1,7 @@
-package com.neoteric.personalbankloan;
+package com.neoteric.personalbankloan.service;
 
 import com.neoteric.personalbankloan.model.Customer;
 import com.neoteric.personalbankloan.model.Loan;
-import com.neoteric.personalbankloan.service.BankService;
-import com.neoteric.personalbankloan.service.LoanService;
 
 public class LoanTest {
     public static void main(String[] args) {

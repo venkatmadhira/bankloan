@@ -1,10 +1,9 @@
-package com.neoteric.busreservation;
+package com.neoteric.busreservation.service;
 
 import com.neoteric.busreservation.model.Bus;
 import com.neoteric.busreservation.model.Passenger;
 import com.neoteric.busreservation.model.Route;
 import com.neoteric.busreservation.model.Ticket;
-import com.neoteric.busreservation.service.*;
 
 import java.util.ArrayList;
 import java.util.List;
