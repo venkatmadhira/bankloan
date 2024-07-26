@@ -29,7 +29,7 @@ public class TaxServiceTest {
 
         User user4 = new User("Venkat", 1000000, 50, false, false, false, false, false, false);
         double tax4=taxService.calculateTax(user4);
-        assertEquals(150000,tax4, 0.01);
+        assertEquals(105000,tax4, 0.01);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class TaxServiceTest {
 
         User user2 = new User("Venkat", 1000000, 40, true, true, false, false, false, false);
         double tax2=taxService.calculateTax(user2, user2.hasCapitalGains, user2.hasMultipleHouseProperties);
-        assertEquals(260000,tax2, 0.01);
+        assertEquals(215000,tax2, 0.01);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class TaxServiceTest {
 
         User user2 = new User("Venkat", 1000000, 50, false, false, false, false, false, true);
         double tax2=taxService.calculateTax(user2, user2.hasBusinessIncome);
-        assertEquals(300000, tax2, 0.01);
+        assertEquals(255000, tax2, 0.01);
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TaxServiceTest {
 
         User user2 = new User("Venkat", 1000000, 27, true, true, false, false, false, true);
         double tax1= taxService.calculateTax(user2, user2.hasCapitalGains, user2.hasMultipleHouseProperties);
-        assertEquals(260000,tax1, 0.01);
+        assertEquals(215000,tax1, 0.01);
     }
 }
 

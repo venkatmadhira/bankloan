@@ -10,8 +10,14 @@ public class TaxService {
         } else if (user.annualIncome <= 900000) {
             return 30000 + (user.annualIncome - 600000) * 0.15;
         } else {
-            return 120000 + (user.annualIncome - 900000) * 0.3;
+            return 75000 + (user.annualIncome - 900000) * 0.3;
         }
+    }
+    public double calculateTax(User user, boolean hasBusinessIncome) {
+        double tax = calculateTax(user);
+        if (hasBusinessIncome) {
+            tax += user.annualIncome * 0.15;
+        }return tax;
     }
     public double calculateTax(User user, boolean hasCapitalGains, boolean hasMultipleHouseProperties) {
         double tax = calculateTax(user);
@@ -20,12 +26,6 @@ public class TaxService {
         }
         if (hasMultipleHouseProperties) {
             tax += 10000;
-        }return tax;
-    }
-    public double calculateTax(User user, boolean hasBusinessIncome) {
-        double tax = calculateTax(user);
-        if (hasBusinessIncome) {
-            tax += user.annualIncome * 0.15;
         }return tax;
     }
 }
