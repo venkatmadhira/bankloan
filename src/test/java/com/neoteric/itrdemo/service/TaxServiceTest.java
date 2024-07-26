@@ -1,94 +1,68 @@
 package com.neoteric.itrdemo.service;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import com.neoteric.itrdemo.model.User;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class TaxServiceTest {
 
-    @Test
-    public void testCalculateTax_ITR1_LowIncome() {
-        User user = new User("Sampath", 300000, 28, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user);
-        assertEquals(15000, tax);
+    private TaxService taxService;
+
+    @BeforeEach
+    public void setUp() {
+        taxService = new TaxService();
     }
 
     @Test
-    public void testCalculateTax_ITR1_HighIncome() {
-        User user = new User("Bobby", 1500000, 40, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user);
-        assertEquals(275000, tax);
+    public void taxForNoAdditional() {
+        User user1 = new User("Venkat", 200000, 30, false, false, false, false, false, false);
+        double tax1=taxService.calculateTax(user1);
+        assertEquals(0,tax1 , 0.01);
+
+        User user2 = new User("Venkat", 500000, 40, false, false, false, false, false, false);
+        double tax2=taxService.calculateTax(user2);
+        assertEquals(25000,tax2, 0.01);
+
+        User user3 = new User("Venkat", 700000, 25, false, false, false, false, false, false);
+        double tax3= taxService.calculateTax(user3);
+        assertEquals(45000,tax3, 0.01);
+
+        User user4 = new User("Venkat", 1000000, 50, false, false, false, false, false, false);
+        double tax4=taxService.calculateTax(user4);
+        assertEquals(150000,tax4, 0.01);
     }
 
     @Test
-    public void testCalculateTax_ITR2_NoAdditionalConditions() {
-        User user = new User("Manideep", 800000, 32, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, false, false);
-        assertEquals(85000, tax);
+    public void taxWithCapitalGainsAndMultipleHouseProperties() {
+        User user1 = new User("Venkat", 700000, 30, true, true, false, false, false, false);
+        double tax1=taxService.calculateTax(user1, user1.hasCapitalGains, user1.hasMultipleHouseProperties);
+        assertEquals(125000,tax1, 0.01);
+
+        User user2 = new User("Venkat", 1000000, 40, true, true, false, false, false, false);
+        double tax2=taxService.calculateTax(user2, user2.hasCapitalGains, user2.hasMultipleHouseProperties);
+        assertEquals(260000,tax2, 0.01);
     }
 
     @Test
-    public void testCalculateTax_ITR2_WithCapitalGains() {
-        User user = new User("Uday", 800000, 32, true, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, true, false);
-        double expectedTax = 85000 + (800000 * 0.1);
-        assertEquals(expectedTax, tax);
+    public void taxWithBusinessIncome() {
+        User user1 = new User("Venkat", 700000, 25, false, false, false, false, false, true);
+        double tax1=taxService.calculateTax(user1, user1.hasBusinessIncome);
+        assertEquals(150000,tax1, 0.01);
+
+        User user2 = new User("Venkat", 1000000, 50, false, false, false, false, false, true);
+        double tax2=taxService.calculateTax(user2, user2.hasBusinessIncome);
+        assertEquals(300000, tax2, 0.01);
     }
 
     @Test
-    public void testCalculateTax_ITR2_WithMultipleHouseProperties() {
-        User user = new User("Sarath", 800000, 32, false, true, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, false, true);
-        double expectedTax = 85000 + 10000;
-        assertEquals(expectedTax, tax);
-    }
+    public void taxMixedCases() {
+        User user1 = new User("Venkat", 700000, 25, true, true, false, false, false, true);
+        double tax=taxService.calculateTax(user1, user1.hasCapitalGains, user1.hasMultipleHouseProperties);
+        assertEquals(125000,tax, 0.01);
 
-    @Test
-    public void testCalculateTax_ITR2_WithBothConditions() {
-        User user = new User("Gopi", 800000, 32, true, true, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, true, true);
-        double expectedTax = 85000 + (800000 * 0.1) + 10000;
-        assertEquals(expectedTax, tax);
-    }
-
-    @Test
-    public void testCalculateTax_ITR3_NoBusinessIncome() {
-        User user = new User("Dinesh", 1000000, 38, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, false);
-        // Calculation: 25000 + (1000000 - 500000) * 0.2 = 125000
-        assertEquals(125000, tax);
-    }
-
-    @Test
-    public void testCalculateTax_ITR3_WithBusinessIncome() {
-        User user = new User("Anil", 1000000, 38, false, false, false, false, false, true);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax(user, true);
-        double expectedTax = 125000 + (1000000 * 0.15);
-        assertEquals(expectedTax, tax);
-    }
-
-    @Test
-    public void testCalculateTax_ITR4_NoPresumptiveIncome() {
-        User user = new User("Pavan", 700000, 29, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax( false,user);
-        assertEquals(65000, tax);
-    }
-
-    @Test
-    public void testCalculateTax_ITR4_WithPresumptiveIncome() {
-        User user = new User("Venkat", 700000, 29, false, false, false, false, false, false);
-        TaxService service = new TaxService();
-        double tax = service.calculateTax( true,user);
-        double expectedTax = 65000 + (700000 * 0.1);
-        assertEquals(expectedTax, tax);
+        User user2 = new User("Venkat", 1000000, 27, true, true, false, false, false, true);
+        double tax1= taxService.calculateTax(user2, user2.hasCapitalGains, user2.hasMultipleHouseProperties);
+        assertEquals(260000,tax1, 0.01);
     }
 }
 

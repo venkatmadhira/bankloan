@@ -1,5 +1,4 @@
 package com.neoteric.itrdemo.model;
-
 public class User {
     public String name;
     public double annualIncome;
